@@ -51,4 +51,6 @@ pip install dist/kryptogramm-0.0.1.tar.gz
 ```
 ## But why?
 
-If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote). I have an interest in making democracy accountable and experimenting with tools that help to provide equal opportunities for largest amount of citizens. I have an informed opinion about [history and future of electronic voting in Estonia](https://debriif.infoaed.ee/docs/draft-list/).
+If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote).
+
+I have an interest in making democracy accountable and experimenting with tools that help to provide equal opportunities for largest amount of citizens. I have an informed opinion about [history and future of electronic voting in Estonia](https://debriif.infoaed.ee/docs/draft-list/).
