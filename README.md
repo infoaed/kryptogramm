@@ -5,7 +5,7 @@ Tool for individual vote verification at Internet enabled parliament elections i
 Usage:
 
 ```
-./kryptogramm qr-code.jpg
+./kryptogramm.py qr-code.jpg
 ```
 
 ![Running the tool](demo.png)
