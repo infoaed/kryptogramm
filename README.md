@@ -18,7 +18,7 @@ Estonian Internet voting has individual verification up to 30 minutes from casti
 * Decrypt your encrypted ballot and see who you voted for
 * Get to understand better how Internet voting works
 
-See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on [Estonian electoral commission web page](https://www.valimised.ee/et/e-haaletamine/dokumendid).
+See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on [Estonian electoral commission web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
 ## Installation instructions
 
