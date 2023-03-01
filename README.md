@@ -1,6 +1,6 @@
 # kryptogramm
 
-Tool for individual vote verification at Internet enabled parliament elections in Estonia 2023. Since we are allowed to verify our vote only up to 30 minutes after casting, we have to make this time really special, don't we?
+Tool for individual vote verification at [Internet enabled](https://github.com/vvk-ehk/ivxv) parliament elections in Estonia 2023. Since we are allowed to verify our vote only up to 30 minutes after casting, we have to make this time really special, don't we?
 
 Usage:
 
@@ -12,13 +12,16 @@ Usage:
 
 ## What you get
 
-Estonian Internet voting has individual verification up to 30 minutes from casting the vote. This is done by downloading cryptogram from vote collection server and decrypting it with ElGamal ephemeral key. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you:
+[Estonian Internet voting](https://youtu.be/GuKiJKL4WdI) uses individual vote verification up to 30 minutes from casting the vote. Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
 
 * Download encrypted ballot for keeping for as long as you want
 * Decrypt your encrypted ballot and see who you voted for
+* Transparency of human readable/editable Python 200-liner
 * Get to understand better how Internet voting works
 
-See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on [Estonian electoral commission web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
+There is also limit of three attempts of verification per ballot. With full control to make use of different the possibilities to audit the process and make it fit the requirements to the democratic election or personal preferences is essential for trust in the process.
+
+See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on Estonian electoral commission [web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) (documentation in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
 ## Installation instructions
 
@@ -48,4 +51,4 @@ pip install dist/kryptogramm-0.0.1.tar.gz
 ```
 ## But why?
 
-If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote)!
+If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote). I have an interest in making democracy accountable and experimenting with tools that help to provide equal opportunities for largest amount of citizens. I have an informed opinion about [history and future of electronic voting in Estonia](https://debriif.infoaed.ee/docs/draft-list/).
