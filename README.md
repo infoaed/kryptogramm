@@ -8,7 +8,9 @@ Usage:
 ./kryptogramm qr-code.jpg
 ```
 
-Installation instructions:
+![Running the tool](demo.png)
+
+## Installation instructions:
 
 ```
 git clone https://github.com/infoaed/kryptogramm.git
@@ -34,5 +36,6 @@ And if you'd like to run this as a command line tool:
 hatch build
 pip install dist/kryptogramm-0.0.1.tar.gz
 ```
+## But why?
 
 If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote)!
