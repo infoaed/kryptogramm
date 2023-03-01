@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kryptogramm"
+description = "Estonian IVXV e-voting vote verification tool"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.7"
+authors = [
+    { name = "Märt Põder", email = "tramm@infoaed.ee" },
+]
+keywords = ["voting", "auditability"]
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: Hatch",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Security :: Cryptography",
+]
+
+dependencies = [
+    "asn1crypto",
+    "pillow",
+    "pyzbar",
+    "pyasice"
+]
+
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/infoaed/kryptogramm"
+"Bug Tracker" = "https://github.com/infoaed/kryptogramm/issues"
+Source = "https://github.com/infoaed/kryptogramm"
+
+[tool.hatch.version]
+path = "__init__.py"
+
+[project.scripts]
+kryptogramm = "kryptogramm:main"
+
+[tool.hatch.envs.default.scripts]
+all = [
+    "hatch dep show requirements > requirements.txt",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "*.py"
+]

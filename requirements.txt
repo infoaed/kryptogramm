@@ -1,0 +1,4 @@
+asn1crypto
+pillow
+pyasice
+pyzbar
