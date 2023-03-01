@@ -12,8 +12,9 @@ Usage:
 
 ## What you get
 
-Estonian Internet voting uses individual vote verification up to 30 minutes from [casting the vote](https://youtu.be/GuKiJKL4WdI). Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption at the voting phase. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
+Estonian Internet voting uses individual vote verification up to 30 minutes from [casting the vote](https://youtu.be/GuKiJKL4WdI). Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption at the voting phase. Vote identificator and keys needed for decryption are passed on to secondary device by QR code. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
 
+* Decode the QR code encapsulating Elgamal key and vote ID
 * Download encrypted ballot for keeping for as long as you want
 * Decrypt your encrypted ballot and see who you voted for
 * Transparency of human readable/editable Python 200-liner
