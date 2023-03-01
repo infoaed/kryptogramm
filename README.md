@@ -12,14 +12,14 @@ Usage:
 
 ## What you get
 
-[Estonian Internet voting](https://youtu.be/GuKiJKL4WdI) uses individual vote verification up to 30 minutes from casting the vote. Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
+Estonian Internet voting uses individual vote verification up to 30 minutes from [casting the vote](https://youtu.be/GuKiJKL4WdI). Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption at the voting phase. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
 
 * Download encrypted ballot for keeping for as long as you want
 * Decrypt your encrypted ballot and see who you voted for
 * Transparency of human readable/editable Python 200-liner
 * Get to understand better how Internet voting works
 
-There is also limit of three attempts of verification per ballot. With full control to make use of different the possibilities to audit the process and make it fit the requirements to the democratic election or personal preferences is essential for trust in the process.
+There is also limit of three attempts of verification per ballot. By using the tool you get full control of the democratic process, you can audit every part of it and make it fit you personal preferences or requirements of digital democracy. Currently that kind of hands on auditing is possible only for very limited parts of the election process.
 
 See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on Estonian electoral commission [web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) (documentation in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
