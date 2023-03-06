@@ -11,10 +11,7 @@ from PIL import Image
 from pyzbar.pyzbar import decode, ZBarSymbol
 
 from platform import platform
-
 from datetime import datetime
-from time import sleep
-
 from pathlib import Path
 
 import warnings
