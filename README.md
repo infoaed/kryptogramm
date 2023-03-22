@@ -24,6 +24,8 @@ There is also limit of three attempts of verification per ballot. By using the t
 
 See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on Estonian electoral commission [web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) (documentation in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
+You can use [sample data from 2023 elections](data) to give the tool a test run.
+
 ## Installation instructions
 
 ```
