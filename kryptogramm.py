@@ -11,7 +11,7 @@ from PIL import Image
 from pyzbar.pyzbar import decode, ZBarSymbol
 
 from platform import platform
-from datetime import datetime
+from dateutil.parser import isoparse
 from pathlib import Path
 
 import warnings
@@ -187,7 +187,7 @@ def main(args=None):
         with open(votefile, 'w') as outfile:
             json.dump(jsres, outfile, sort_keys=True, indent=4)
 
-    print(datetime.fromisoformat(jsres["BallotMoment"][:-1]).astimezone())
+    print(isoparse(jsres["BallotMoment"]).astimezone())
     print(f"\n{asc_ballot}\n")
 
     m = None
