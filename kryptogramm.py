@@ -209,6 +209,9 @@ def main(args=None):
 
     m = m.to_bytes((m.bit_length() + 7) // 8, 'big')
 
+    with open(votesafe + "_" + "RK_2023.question-1.ballot" + ".bin", 'wb') as bin_file:
+        bin_file.write(m)
+
     if len(m)+1 != p.bit_length() / 8:
         fail("vale pikkus")
 
