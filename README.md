@@ -56,4 +56,6 @@ pip install dist/kryptogramm-0.0.1.tar.gz
 
 If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote), another of my digital democracy tools.
 
-I have an interest in making democracy accountable and experimenting with tools that help to provide equal opportunities for largest amount of citizens. I have an informed opinion about [history and future of electronic voting in Estonia](https://debriif.infoaed.ee/docs/draft-list/).
+In combination with the voting application prototype the tool was used to conduct [close inspection of voting protocol](https://gafgaf.infoaed.ee/en/posts/perils-of-electronic-voting/#independent-vote-verification-tool) during parliamentary elections and appeared [useful for detecting and reporting anomalies](https://infoaed.ee/ballot2023).
+
+You may get better picture of my projects by having look at this unfinished [netizen index of e-voting requirements](https://debriif.infoaed.ee/docs/draft-list/).
