@@ -17,12 +17,13 @@ Estonian Internet voting uses individual vote verification up to 30 minutes from
 * Decode the QR code encapsulating ElGamal key and vote ID
 * Download encrypted ballot for keeping for as long as you want
 * Decrypt your encrypted ballot and see who you voted for
+* Inspect vote container, signature, registration receipts etc
 * Transparency of human readable/editable Python 200-liner
 * Get to understand better how Internet voting works
 
-There is also limit of three attempts of verification per ballot. By using the tool you get full control of the democratic process, you can audit every part of it and make it fit your personal preferences or requirements of digital democracy. Currently that kind of hands on auditing is possible only for very limited parts of the election process.
+Election servers also limit verification by three attempts per ballot. By using the tool you get full control of the democratic process, you can audit every part of it and make it fit your personal preferences or requirements of digital democracy. Currently that kind of hands on auditing is possible only for very limited parts of the election process.
 
-See the details about [vote verification](https://www.valimised.ee/et/e-haaletamine/e-haaletamisest-lahemalt/haaletamise-kontroll-nutitelefoniga) on Estonian electoral commission [web page](https://www.valimised.ee/et/e-haaletamine/dokumendid) (documentation in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
+See the details about [vote verification](https://www.valimised.ee/en/internet-voting/guidelines/checking-i-vote) on Estonian electoral commission [web page](https://www.valimised.ee/en/internet-voting/documents-about-internet-voting) (documentation mostly in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
 You can use [sample data from 2023 elections](data) to give the tool a test run.
 
