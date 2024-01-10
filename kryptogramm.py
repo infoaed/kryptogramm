@@ -82,6 +82,7 @@ def main(args=None):
                 }
 
         voteid = qr["voteid"]
+        sessionid = qr["sessid"]
         ephkey_bin = base64.standard_b64decode(qr["ephkey"])
 
         votesafe = voteid.replace("/","_")
@@ -93,11 +94,12 @@ def main(args=None):
 
     path = Path(votefile)
 
-    if path.is_file() and jsres is None: # use json, if exists
+    if path.is_file(): # use json, if exists
         with open(votefile) as vote_json:
             jsres = json.load(vote_json)
             
         voteid = jsres["VoteID"]
+        sessionid = jsres["result"]["SessionID"]
 
     if not forced_mode and jsres is not None: # we have json
         print(f"OLEMASOLEVA '{voteid}' kasutamine\n")
@@ -123,7 +125,7 @@ def main(args=None):
             "method": "RPC.Verify",
             "params": [{
                 "OS": platform(aliased=True),
-                "SessionID": qr["sessid"],
+                "SessionID": sessionid,
                 "VoteID": voteid
             }],
         }
