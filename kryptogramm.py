@@ -41,6 +41,9 @@ pub = """-----BEGIN PUBLIC KEY-----
 MIIDMjCCAaAGCSsGAQQBl1UCATCCAZECggGBAP//////////yQ/aoiFowjTExmKLgNwc0SkCTgiKZ8x0Agu+pjsTmyJRSgh5jjQE3e+VGbPNOkMbMCsKbfJfFDdP4TVtbVHCReSFtXZiXn7G9ExC6aY37WsL/1y29Aa37e44a/taiZ+lrp8kEXxLH+ZJKGZR7ORbPcIAfLihY78FmNpINhxV05ppFj+o/STPX4NlXSPco62WHGLzViCFUrue1SkHcJaWbWcMNU5KvJgE8XRsCMoYIXwykF5GLjbOO+OedywYDoYDmyeDouwHoo+1xV3wb0xSyd4ry/aVWBcYOZVJfOqVauUV0iYYmPoFEBVyjlqKqsQtrTMXDQRQejOoVSGr3xy6ZOz7hQRY2+8KiupxV10GDH2zlw+FpuHkx6v1rozbCTPXHoyU4EolYZ3O49ImGtLua/Ev+gbZighk2HYCcz7IamRSHysYF3sgDLvhF1d6YV1sdwmIwLrZRuII4k+gdOWrMUPbW/zg/RCOS4LRIKk60sr//////////wIBAhsHUktfMjAyMwOCAYoAMIIBhQKCAYEAwcYXpWjSJQrLA4L4HhWT7cnZ0vnnOmgkf8lJ5kMF8qQo8TYQl2krlEoewlnTrjdTgLTnPbOQeryURGuiVGE6zhYMUeNaTPi55LthNRRWXF2W7hmXVQqQGcIpQsaciXTfLUhLBsZ7Z4eMIwAmYwkfY9FMowyFzMBkuCmO1Ab2ZqbVlikpNbaf6QpgVXTLM0yjMklb2PX5xPbAIgcmiGeOcVS5R5deIajmc06KHSwjdRdlRdbUZ4SkuDyZLGhp+M+NJ0rjAYpWi9ub40LkCI1LQ2kCpNyxZIpI+I7xik7D8DUhqwW2aftKV+L8OOWrIi2Vtmq14kOhT4wKhKDlsoFeJ5XqyG4j0/Yfj0qVXkKzMnhLyQXyV/dk1ejjvK9Fu91ti9KF/HpgBFhVEpKNhSn1oLQYxSVo9n4aQkq9BPkzKZwc1cGZCMaWbk/9lpibcfyeqRLgUP/5coj7KEasl38Nu6ROZzq8Cn63i/UUz0rSrR8fLlFI3jiR6hPRZ/a4xJok
 -----END PUBLIC KEY-----"""
 
+sni = "verification.ivxv.valimised.ee"
+verify_urls = ["koguja1.valimised.ee:443", "koguja2.valimised.ee:443", "koguja3.valimised.ee:443"]
+
 def fail(reason):
     print("SEDEL EI VASTA NÕUETELE!\n")
     print(f"({reason})")
@@ -53,53 +56,64 @@ def main(args=None):
     if len(args) == 0:
         print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #RK2023\n")
         print("Kasuta:")
-        print("\tkryptogramm <pildifail> [jõuvõte?]")
+        print("\tkryptogramm <pildifail,*/voteid.json> [jõuvõte?]")
         exit(1)
 
+    archive_mode = args[0].strip().lower().endswith(".json")
     forced_mode = len(args) > 1
 
-    img = Image.open(args[0])
-    gfx = decode(img)
+    vote = voteid = jsres = container = None
 
-    if len(gfx) == 0:
-        print("POLE VIST QR-KOODI?")
-        exit(1)
+    if not archive_mode:  # use json instead of qr code
+        img = Image.open(args[0])
+        gfx = decode(img)
 
-    elif gfx[0].type == 'QRCODE':
-        d = gfx[0].data.split()
-        
-        qr = {
-            "sessid": d[0].decode(),
-            "ephkey": d[1].decode(),
-            "voteid": d[2].decode()
-            }
+        if len(gfx) == 0:
+            print("POLE VIST QR-KOODI?")
+            exit(1)
+
+        elif gfx[0].type == 'QRCODE':
+            d = gfx[0].data.split()
             
-    sni = "verification.ivxv.valimised.ee"
-    verify_urls = ["koguja1.valimised.ee:443", "koguja2.valimised.ee:443", "koguja3.valimised.ee:443"]
+            qr = {
+                "sessid": d[0].decode(),
+                "ephkey": d[1].decode(),
+                "voteid": d[2].decode()
+                }
 
-    ephkey_bin = base64.standard_b64decode(qr["ephkey"])
+        voteid = qr["voteid"]
+        ephkey_bin = base64.standard_b64decode(qr["ephkey"])
 
-    vote = None
-    voteid = qr["voteid"]
-    votesafe = voteid.replace("/","_")
-    votefile = votesafe + ".json"
+        votesafe = voteid.replace("/","_")
+        votefile = votesafe + ".json"
 
-    jsres = None
+    else:
+        votesafe = args[0][0:-len(".json")]
+        votefile = args[0]
+
     path = Path(votefile)
 
-    if not forced_mode and path.is_file():
-        print(f"OLEMASOLEVA '{voteid}' kasutamine\n")
-
+    if path.is_file() and jsres is None: # try json first
         with open(votefile) as vote_json:
             jsres = json.load(vote_json)
             
+        voteid = jsres["VoteID"]
+
+    if not forced_mode and jsres is not None: # we have json
+        print(f"OLEMASOLEVA '{voteid}' kasutamine\n")
+
         vote = base64.standard_b64decode(jsres["result"]["Vote"])
-        asc_ballot = jsres["RK_2023.question-1.ballot"]
+        ephkey_bin = base64.standard_b64decode(jsres["Ephemeral"])
+
+        container = Container(io.BytesIO(vote))
+        ballot_name = container.data_file_names[0]
+
+        asc_ballot = jsres[ballot_name]
         ballot = base64.standard_b64decode(asc_ballot)
         
         print("🗳️   ", end="", flush=True)
 
-    else:
+    else: # did not have json or download was forced
         random.shuffle(verify_urls)
         context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLSv1_2)
         context.load_default_certs()
@@ -147,9 +161,9 @@ def main(args=None):
             exit(1)
 
         container = Container(io.BytesIO(vote))
+        ballot_name = container.data_file_names[0]
 
-        fn = container.data_file_names[0]
-        f = container.open_file(fn)
+        f = container.open_file(ballot_name)
         ballot = f.read()
         for xmlsig in container.iter_signatures():
             jsres["BallotMoment"] = xmlsig.get_signing_time()
@@ -194,7 +208,7 @@ def main(args=None):
 
     m = m.to_bytes((m.bit_length() + 7) // 8, 'big')
 
-    with open(votesafe + "_" + "RK_2023.question-1.ballot" + ".bin", 'wb') as bin_file:
+    with open(votesafe + "_" + ballot_name, 'wb') as bin_file:
         bin_file.write(m)
 
     if len(m)+1 != p.bit_length() / 8:
