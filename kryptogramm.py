@@ -64,7 +64,7 @@ def main(args=None):
 
     vote = voteid = jsres = container = None
 
-    if not archive_mode:  # use json instead of qr code
+    if not archive_mode: # normally try qr code first
         img = Image.open(args[0])
         gfx = decode(img)
 
@@ -87,13 +87,13 @@ def main(args=None):
         votesafe = voteid.replace("/","_")
         votefile = votesafe + ".json"
 
-    else:
+    else: # init loading from json
         votesafe = args[0][0:-len(".json")]
         votefile = args[0]
 
     path = Path(votefile)
 
-    if path.is_file() and jsres is None: # try json first
+    if path.is_file() and jsres is None: # use json, if exists
         with open(votefile) as vote_json:
             jsres = json.load(vote_json)
             
@@ -177,6 +177,8 @@ def main(args=None):
         jsres["VoteID"] = voteid
         with open(votefile, 'w') as outfile:
             json.dump(jsres, outfile, sort_keys=True, indent=4)
+
+    # have the data, attempt decryption
 
     m = None
 
