@@ -4,7 +4,7 @@ import json, base64
 import io, sys, random
 import socket, ssl
 
-from asn1crypto.core import Sequence, ObjectIdentifier, Integer, GeneralString, BitString
+from asn1crypto.core import Sequence, Integer, BitString
 from asn1crypto.algos import AnyAlgorithmIdentifier
 
 from pyasice import Container
