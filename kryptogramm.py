@@ -88,13 +88,13 @@ def main(args=None):
         votesafe = voteid.replace("/","_")
         votefile = votesafe + ".json"
 
-    else: # init loading from json
+    else: # init loading ids from json
         votesafe = args[0][0:-len(".json")]
         votefile = args[0]
 
     path = Path(votefile)
 
-    if path.is_file(): # use json, if exists
+    if path.is_file(): # use json for data, if exists
         with open(votefile) as vote_json:
             jsres = json.load(vote_json)
             
@@ -181,7 +181,6 @@ def main(args=None):
             json.dump(jsres, outfile, sort_keys=True, indent=4)
 
     # have the data, attempt decryption
-
     m = None
 
     bin_key = base64.standard_b64decode("".join(pub.split("\n")[1].strip().split()))
