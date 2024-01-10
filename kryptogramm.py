@@ -5,6 +5,8 @@ import io, sys, random
 import socket, ssl
 
 from asn1crypto.core import Sequence, ObjectIdentifier, Integer, GeneralString, BitString
+from asn1crypto.algos import AnyAlgorithmIdentifier
+
 from pyasice import Container
 
 from PIL import Image
@@ -17,22 +19,9 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-class IVXVKeyParams(Sequence):
-    _fields = [
-        ('p', Integer),
-        ('g', Integer),
-        ('id', GeneralString)
-    ]
-
-class IVXVData(Sequence):
-    _fields = [
-        ('oid', ObjectIdentifier),
-        ("params",  IVXVKeyParams)
-    ]
-
 class IVXVKey(Sequence):
     _fields = [
-        ("data", IVXVData),
+        ("data", AnyAlgorithmIdentifier),
         ('key', BitString)
     ]
 
@@ -42,16 +31,15 @@ class IVXVContent(Sequence):
         ("vote",  Integer)
     ]
 
-class IVXVDummy(Sequence):
-    _fields = [
-        ('oid', ObjectIdentifier),
-    ]
-
 class IVXVBallot(Sequence):
     _fields = [
-        ("data", IVXVDummy),
+        ("data", AnyAlgorithmIdentifier),
         ('content', IVXVContent)
     ]
+
+pub = """-----BEGIN PUBLIC KEY-----
+MIIDMjCCAaAGCSsGAQQBl1UCATCCAZECggGBAP//////////yQ/aoiFowjTExmKLgNwc0SkCTgiKZ8x0Agu+pjsTmyJRSgh5jjQE3e+VGbPNOkMbMCsKbfJfFDdP4TVtbVHCReSFtXZiXn7G9ExC6aY37WsL/1y29Aa37e44a/taiZ+lrp8kEXxLH+ZJKGZR7ORbPcIAfLihY78FmNpINhxV05ppFj+o/STPX4NlXSPco62WHGLzViCFUrue1SkHcJaWbWcMNU5KvJgE8XRsCMoYIXwykF5GLjbOO+OedywYDoYDmyeDouwHoo+1xV3wb0xSyd4ry/aVWBcYOZVJfOqVauUV0iYYmPoFEBVyjlqKqsQtrTMXDQRQejOoVSGr3xy6ZOz7hQRY2+8KiupxV10GDH2zlw+FpuHkx6v1rozbCTPXHoyU4EolYZ3O49ImGtLua/Ev+gbZighk2HYCcz7IamRSHysYF3sgDLvhF1d6YV1sdwmIwLrZRuII4k+gdOWrMUPbW/zg/RCOS4LRIKk60sr//////////wIBAhsHUktfMjAyMwOCAYoAMIIBhQKCAYEAwcYXpWjSJQrLA4L4HhWT7cnZ0vnnOmgkf8lJ5kMF8qQo8TYQl2krlEoewlnTrjdTgLTnPbOQeryURGuiVGE6zhYMUeNaTPi55LthNRRWXF2W7hmXVQqQGcIpQsaciXTfLUhLBsZ7Z4eMIwAmYwkfY9FMowyFzMBkuCmO1Ab2ZqbVlikpNbaf6QpgVXTLM0yjMklb2PX5xPbAIgcmiGeOcVS5R5deIajmc06KHSwjdRdlRdbUZ4SkuDyZLGhp+M+NJ0rjAYpWi9ub40LkCI1LQ2kCpNyxZIpI+I7xik7D8DUhqwW2aftKV+L8OOWrIi2Vtmq14kOhT4wKhKDlsoFeJ5XqyG4j0/Yfj0qVXkKzMnhLyQXyV/dk1ejjvK9Fu91ti9KF/HpgBFhVEpKNhSn1oLQYxSVo9n4aQkq9BPkzKZwc1cGZCMaWbk/9lpibcfyeqRLgUP/5coj7KEasl38Nu6ROZzq8Cn63i/UUz0rSrR8fLlFI3jiR6hPRZ/a4xJok
+-----END PUBLIC KEY-----"""
 
 def fail(reason):
     print("SEDEL EI VASTA NÕUETELE!\n")
@@ -90,17 +78,6 @@ def main(args=None):
     verify_urls = ["koguja1.valimised.ee:443", "koguja2.valimised.ee:443", "koguja3.valimised.ee:443"]
 
     ephkey_bin = base64.standard_b64decode(qr["ephkey"])
-
-    pub = """-----BEGIN PUBLIC KEY-----
-    MIIDMjCCAaAGCSsGAQQBl1UCATCCAZECggGBAP//////////yQ/aoiFowjTExmKLgNwc0SkCTgiKZ8x0Agu+pjsTmyJRSgh5jjQE3e+VGbPNOkMbMCsKbfJfFDdP4TVtbVHCReSFtXZiXn7G9ExC6aY37WsL/1y29Aa37e44a/taiZ+lrp8kEXxLH+ZJKGZR7ORbPcIAfLihY78FmNpINhxV05ppFj+o/STPX4NlXSPco62WHGLzViCFUrue1SkHcJaWbWcMNU5KvJgE8XRsCMoYIXwykF5GLjbOO+OedywYDoYDmyeDouwHoo+1xV3wb0xSyd4ry/aVWBcYOZVJfOqVauUV0iYYmPoFEBVyjlqKqsQtrTMXDQRQejOoVSGr3xy6ZOz7hQRY2+8KiupxV10GDH2zlw+FpuHkx6v1rozbCTPXHoyU4EolYZ3O49ImGtLua/Ev+gbZighk2HYCcz7IamRSHysYF3sgDLvhF1d6YV1sdwmIwLrZRuII4k+gdOWrMUPbW/zg/RCOS4LRIKk60sr//////////wIBAhsHUktfMjAyMwOCAYoAMIIBhQKCAYEAwcYXpWjSJQrLA4L4HhWT7cnZ0vnnOmgkf8lJ5kMF8qQo8TYQl2krlEoewlnTrjdTgLTnPbOQeryURGuiVGE6zhYMUeNaTPi55LthNRRWXF2W7hmXVQqQGcIpQsaciXTfLUhLBsZ7Z4eMIwAmYwkfY9FMowyFzMBkuCmO1Ab2ZqbVlikpNbaf6QpgVXTLM0yjMklb2PX5xPbAIgcmiGeOcVS5R5deIajmc06KHSwjdRdlRdbUZ4SkuDyZLGhp+M+NJ0rjAYpWi9ub40LkCI1LQ2kCpNyxZIpI+I7xik7D8DUhqwW2aftKV+L8OOWrIi2Vtmq14kOhT4wKhKDlsoFeJ5XqyG4j0/Yfj0qVXkKzMnhLyQXyV/dk1ejjvK9Fu91ti9KF/HpgBFhVEpKNhSn1oLQYxSVo9n4aQkq9BPkzKZwc1cGZCMaWbk/9lpibcfyeqRLgUP/5coj7KEasl38Nu6ROZzq8Cn63i/UUz0rSrR8fLlFI3jiR6hPRZ/a4xJok
-    -----END PUBLIC KEY-----"""
-
-    bin_key = base64.standard_b64decode("".join(pub.split("\n")[1].strip().split()))
-    d = IVXVKey.load(bin_key).native
-
-    key = sum(v<<i for i, v in enumerate(d["key"][72:][::-1]))
-    p, g, id = (d["data"]["params"][x] for x in d["data"]["params"])
-    q = p >> 1
 
     vote = None
     voteid = qr["voteid"]
@@ -187,15 +164,23 @@ def main(args=None):
         with open(votefile, 'w') as outfile:
             json.dump(jsres, outfile, sort_keys=True, indent=4)
 
-    print(isoparse(jsres["BallotMoment"]).astimezone())
-    print(f"\n{asc_ballot}\n")
-
     m = None
+
+    bin_key = base64.standard_b64decode("".join(pub.split("\n")[1].strip().split()))
+    d = IVXVKey.load(bin_key).native
+
+    key = sum(v<<i for i, v in enumerate(d["key"][72:][::-1]))
+    
+    p, g, id = (d["data"]["parameters"][x] for x in d["data"]["parameters"])
+    q = p >> 1
 
     b = IVXVBallot.load(ballot)["content"]["vote"].native
     p = int(p)
     q = int(q)
     eph = int.from_bytes(ephkey_bin, 'big')
+
+    print(isoparse(jsres["BallotMoment"]).astimezone(), f"({id})")
+    print(f"\n{asc_ballot}\n")
 
     f = pow(key, eph, p)
     fi = pow(f, -1, p)
