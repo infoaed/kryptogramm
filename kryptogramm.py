@@ -225,7 +225,7 @@ def main(args=None):
     reg_pub = load_pem_x509_certificate(str.encode(reg_cert)).public_key()
     reg_pub.verify(nonce_sig['signature'].native, msg_canonical, padding.PKCS1v15(), hashes.SHA256())
 
-    container._write_signature(sig.dump(), "META-INF/signatures0.xml")
+    container._write_signature(sig.dump(), sigs[0])
     container.save(votesafe + "_qualified.asice")
 
     # data seems valid, attempt decryption
