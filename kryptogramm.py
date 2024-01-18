@@ -202,10 +202,10 @@ def main(args=None):
 
     # check integrity/qualification proofs
     container.verify_container()
-    sigs = container._enumerate_signatures()
+    sigs = container.signature_file_names
     if len(sigs) != 1:
         fail("vähem või rohkem kui üks allkiri")
-    sig = next(container.iter_signatures())
+    sig, sig_file = next(container.iter_signatures_with_filenames())
 
     ocsp_bin = OCSP.load(base64.b64decode(jsres["result"]["Qualification"]["ocsp"]))
     sig.set_ocsp_response(ocsp_bin)
@@ -225,7 +225,7 @@ def main(args=None):
     reg_pub = load_pem_x509_certificate(str.encode(reg_cert)).public_key()
     reg_pub.verify(nonce_sig['signature'].native, msg_canonical, padding.PKCS1v15(), hashes.SHA256())
 
-    container._write_signature(sig.dump(), sigs[0])
+    container.update_signature(sig, sig_file)
     container.save(votesafe + "_qualified.asice")
 
     # data seems valid, attempt decryption
