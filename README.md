@@ -56,10 +56,10 @@ pip install dist/kryptogramm-0.1.0.tar.gz
 ```
 ## But why?
 
-If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote), another of my digital democracy tools.
-
 In combination with the voting application prototype the tool was used to conduct [close inspection of voting protocol](https://gafgaf.infoaed.ee/en/posts/perils-of-electronic-voting/#independent-vote-verification-tool) during parliamentary elections and appeared [useful for detecting and reporting anomalies](https://infoaed.ee/ballot2023) as well as [demonstrating vote secrecy breach](https://infoaed.ee/proof2023).
 
 There is also a draft report "[Votes without ballots: e‑voting at 2023 elections in Estonia](https://gafgaf.infoaed.ee/en/posts/votes-without-ballots/)", which was under title "[Should e-voting experience of Estonia be copied?](https://media.ccc.de/v/37c3-12298-should_e-voting_experience_of_estonia_be_copied)" at Chaos Communication Congress 2023. The report is still edited and is easiest to approach through [summary of the findings](https://infoaed.ee/findings2023/).
 
 You may get better picture of my projects by having look at this unfinished [netizen index of e-voting requirements](https://debriif.infoaed.ee/docs/draft-list/) and civil society organisation [Fair Elections Estonia](https://ausadvalimised.ee/en/), advocating for observability of e-voting.
+
+If you like this tool, you may also want to check out [Pseudovote](https://github.com/infoaed/pseudovote), another of my digital democracy tools.
