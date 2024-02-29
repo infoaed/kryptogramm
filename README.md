@@ -5,7 +5,7 @@ Tool for individual vote verification at [Internet enabled](https://github.com/v
 Usage:
 
 ```
-./kryptogramm.py <QR-CODE.jpg | STORED-VOTE.json> [--force_download]
+./kryptogramm.py (<QR-CODE.jpg> | <VOTE.json>) [--force-download]
 ```
 
 ![Running the tool](demo.png)
