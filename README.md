@@ -1,6 +1,6 @@
 # kryptogramm
 
-Tool for individual vote verification at [Internet enabled](https://github.com/vvk-ehk/ivxv) parliament elections in Estonia 2023. Since we are allowed to verify our vote only up to 30 minutes after casting, we have to make this time really special, don't we?
+Tool for individual vote verification at [Internet enabled](https://github.com/vvk-ehk/ivxv) parliament elections in Estonia. Since we are allowed to verify our vote only up to 30 minutes after casting, we have to make this time really special, don't we?
 
 Usage:
 
@@ -8,7 +8,7 @@ Usage:
 ./kryptogramm.py (<QR-CODE.jpg> | <VOTE.json>) [--force-download]
 ```
 
-![Running the tool](demo.png)
+[![Running the tool](https://img.youtube.com/vi/JX2NiK_p6wo/0.jpg)](https://www.youtube.com/watch?v=JX2NiK_p6wo)
 
 ## What you get
 
@@ -26,7 +26,7 @@ Election servers also limit verification by three attempts per ballot. By using 
 
 See the details about [vote verification](https://www.valimised.ee/en/internet-voting/guidelines/checking-i-vote) on Estonian electoral commission [web page](https://www.valimised.ee/en/internet-voting/documents-about-internet-voting) (documentation mostly in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
-You can use [sample data from 2023 elections](data) to give the tool a test run.
+You can use [sample data from two elections](data) to give the tool a test run.
 
 ## Installation instructions
 
@@ -52,7 +52,7 @@ And if you'd like to run this as a command line tool:
 
 ```
 hatch build
-pip install dist/kryptogramm-0.1.0.tar.gz
+pip install dist/kryptogramm-0.1.1.tar.gz
 ```
 ## But why?
 
