@@ -185,6 +185,7 @@ def main(args=None):
         container = Container(io.BytesIO(vote))
         ballot_name = container.data_file_names[0]
 
+        fn = container.data_file_names[0]
         f = container.open_file(ballot_name)
         ballot = f.read()
         for xmlsig in container.iter_signatures():
