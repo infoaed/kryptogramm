@@ -1,6 +1,6 @@
 # kryptogramm
 
-Tool for individual vote verification at [Internet enabled](https://github.com/vvk-ehk/ivxv) parliament elections in Estonia. Since we are allowed to verify our vote only up to 30 minutes after casting, we have to make this time really special, don't we?
+Tool for individual vote verification at [Internet enabled](https://github.com/vvk-ehk/ivxv) parliament elections in Estonia. Since we are allowed to verify our vote only up to 15 minutes after casting, we have to make this time really special, don't we?
 
 Usage:
 
@@ -12,7 +12,7 @@ Usage:
 
 ## What you get
 
-Estonian Internet voting uses individual vote verification up to 30 minutes from [casting the vote](https://youtu.be/GuKiJKL4WdI). Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption at the voting phase. Vote identificator and keys needed for decryption are passed on to secondary device by QR code. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
+Estonian Internet voting uses individual vote verification up to 15 minutes from [casting the vote](https://youtu.be/GuKiJKL4WdI). Technically, this is done by downloading cryptogram from vote storage server and decrypting it with ElGamal ephemeral key created during encryption at the voting phase. Vote identificator and keys needed for decryption are passed on to secondary device by QR code. Usually you don't get the cryptogram out of proprietary voting application but by default also not from the verification application. With this tool you will get to:
 
 * Decode the QR code encapsulating ElGamal key and vote ID
 * Download encrypted ballot for keeping for as long as you want
