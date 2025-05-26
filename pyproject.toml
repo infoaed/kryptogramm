@@ -1,3 +1,7 @@
+[tool.hatch.envs.default]
+python = "/usr/bin/python3"
+type = "system"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
