@@ -52,7 +52,7 @@ And if you'd like to run this as a command line tool:
 
 ```
 hatch build
-pip install dist/kryptogramm-0.1.1.tar.gz
+pip install dist/kryptogramm-0.2.0.tar.gz
 ```
 ## But why?
 

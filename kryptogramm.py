@@ -12,6 +12,9 @@ from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
+from tinyec import registry
+from tinyec.ec import Point
+
 from pyasice import Container
 from pyasice.ocsp import OCSP
 from pyasice.tsa import TSA
@@ -36,8 +39,8 @@ class IVXVKey(Sequence):
 
 class IVXVContent(Sequence):
     _fields = [
-        ('params', Integer),
-        ("vote",  Integer)
+        ('c1', OctetString),
+        ("c2",  OctetString)
     ]
 
 class IVXVBallot(Sequence):
@@ -53,11 +56,11 @@ class IVXVSignature(Sequence):
     ]
 
 nec_pub = """-----BEGIN PUBLIC KEY-----
-MIIDMjCCAaAGCSsGAQQBl1UCATCCAZECggGBAP//////////yQ/aoiFowjTExmKLgNwc0SkCTgiKZ8x0Agu+pjsTmyJRSgh5jjQE3e+VGbPNOkMbMCsKbfJfFDdP4TVtbVHCReSFtXZiXn7G9ExC6aY37WsL/1y29Aa37e44a/taiZ+lrp8kEXxLH+ZJKGZR7ORbPcIAfLihY78FmNpINhxV05ppFj+o/STPX4NlXSPco62WHGLzViCFUrue1SkHcJaWbWcMNU5KvJgE8XRsCMoYIXwykF5GLjbOO+OedywYDoYDmyeDouwHoo+1xV3wb0xSyd4ry/aVWBcYOZVJfOqVauUV0iYYmPoFEBVyjlqKqsQtrTMXDQRQejOoVSGr3xy6ZOz7hQRY2+8KiupxV10GDH2zlw+FpuHkx6v1rozbCTPXHoyU4EolYZ3O49ImGtLua/Ev+gbZighk2HYCcz7IamRSHysYF3sgDLvhF1d6YV1sdwmIwLrZRuII4k+gdOWrMUPbW/zg/RCOS4LRIKk60sr//////////wIBAhsHRVBfMjAyNAOCAYoAMIIBhQKCAYEA6LMFRnvHNQzrlbIW4kIY++ZUNhgoN7YVNuLdzLIx2FP1n9CeSxh2Bl/jzIkjreuFlSePZT5PY4gvBlN1RJPFlDTVR2N9tQRmPVCk/3Hf7UPqpBT7dszqm4Rs5qjjgxK4r+xi2PBFhJPpCpZWumFS7oVabAmnXjBq+Tpbk9LpKnFIQo1rxwnP2d5ycS07elPPUfC4EJbXanky/W7dBC+TAWfHb6cVur+tzDYfDDutD26Z9wjPG2EZPaAhkAD31qdKB7uajCLBFN4Qd3elI21GXYWa8TrMBvu1WtJKDOKhtKcStGnOP/a3dm/9ZzCxemN3XSMNsPQ2ag/O0tU5gd8JfKqAXsYkX8IZg5vV3mCLtc+bPaF0D5SyJ2+doAV526UOPZAY7RRyooGcj2pqyDMfRV3Lj/cJNy1dIPla6JlK0NWU34yOHMUe9IcX95Ep47Jdcy1kcT8HOGhdh2UPlA03rXeHbH6rb+otk7AmjOnf9wQFAHohUNmMk49FhJH6sE5t
+MIGNMCMGCSsGAQQBho0fATAWGwVQLTM4NBsNTElWRURFTU9fMjAyNQNmADBjBGEEw9v35YzJKiwxHb8uQHdv6iMaVMlBr9O9/o3K3hJ4MStkhp5C9nFCj42M467tltkZAaMHtow920UtAcRAh+ECWOg1iNOrW5IYTxAZHANBiRIxbifp5SOFnFBvT3CQ0kFl
 -----END PUBLIC KEY-----"""
 
 reg_cert = """-----BEGIN CERTIFICATE-----
-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
+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\nkNhysXU=
 -----END CERTIFICATE-----"""
 
 sni = "verification.ivxv.valimised.ee"
@@ -73,7 +76,7 @@ def main(args=None):
         args = sys.argv[1:]
 
     if len(args) == 0:
-        print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #RK2023\n")
+        print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #KOV_2025\n")
         print("Kasuta:")
         print("\tkryptogramm <pildifail,*/voteid.json> [jõuvõte?]")
         exit(1)
@@ -234,66 +237,56 @@ def main(args=None):
 
     bin_key = base64.standard_b64decode("".join(nec_pub.split("\n")[1].strip().split()))
     d = IVXVKey.load(bin_key).native
-    key = sum(v<<i for i, v in enumerate(d["key"][72:][::-1]))
-    
-    p, g, id = (d["data"]["parameters"][x] for x in d["data"]["parameters"])
-    q = p >> 1
 
-    b = IVXVBallot.load(ballot)["content"]["vote"].native
-    p = int(p)
-    q = int(q)
-    eph = int.from_bytes(ephkey_bin, 'big')
+    if d["data"]["algorithm"] == "1.3.6.1.4.1.3029.2.1":
+        print("kasuta tööriista versiooni 0.1.*")
+    elif d["data"]["algorithm"] != "1.3.6.1.4.1.99999.1":
+        print("tundmatu avalik võti")
 
-    print(isoparse(jsres["BallotMoment"]).astimezone(), f"({id})")
+    c = registry.get_curve("secp384r1")
+    key = d["key"]
+    key_x = sum(v<<i for i, v in enumerate(key[len(key)-2*384:-384][::-1]))
+    key_y = sum(v<<i for i, v in enumerate(key[len(key)-384:][::-1]))
+    eph_key = int.from_bytes(ephkey_bin, 'big')
+
+    b = IVXVBallot.load(ballot)["content"]["c2"].native
+
+    print(isoparse(jsres["BallotMoment"]).astimezone(), d["data"]["parameters"]["1"])
     print(f"\n{asc_ballot}\n")
+      
+    pub = Point(c, key_x, key_y)
+    c2_x = int.from_bytes(b[1:49])
+    c2_y = int.from_bytes(b[49:])
+    c2 = Point(c, c2_x, c2_y)
+   
+    mp = c2 - eph_key * pub
 
-    f = pow(key, eph, p)
-    fi = pow(f, -1, p)
-    s = fi * b % p
-
-    if pow(s, q, p) == 1:
-        m = p-s if s>q else s
-
-    if not m:
-        fail("krüptogramm ei avanenud")
-
-    m = m.to_bytes((m.bit_length() + 7) // 8, 'big')
+    m = (mp.x>>2).to_bytes(((mp.x>>2).bit_length() + 7) // 8, 'big')
 
     with open(votesafe + "_" + ballot_name, 'wb') as bin_file:
         bin_file.write(m)
 
-    if len(m)+1 != p.bit_length() / 8:
+    if len(m) != 48:
         fail("vale pikkus")
 
-    if m[0] != 1:
+    if m[0] != 0x1f:
         fail("formaadi algus vale")
 
     m = m[1:]
 
     m = m.lstrip(b"\xff")
-
-    if m[0] != 0:
+    
+    if m[0] != 0xfe:
         fail("sedeli algus vale")
-        
-    m = m[1:].decode("UTF-8")
 
-    j = 0
-    while j < len(m):
-        i=j
-        while i < len(m) and ord(m[i]) != 0x1f:
-            print(f"\033[1m{m[i]}\033[0m", end="  ")
-            i+=1
-        print()
-        i=j
-        while i < len(m) and ord(m[i]) != 0x1f:
-            print("{:02X} ".format(ord(m[i])), end="")
-            i+=1
-        if i < len(m) and ord(m[i]) == 0x1f:
-            print("{:02X} ".format(ord(m[i])), end="")
-        print("\n", flush=True)
-        if i >= len(m):
-            break
-        j=i+1
+    m = m[1:].decode("latin_1")
+        
+    for i in range(0, len(m)):
+        print(f"\033[1m{m[i]}\033[0m", end="  ")
+    print()
+    for i in range(0, len(m)):
+        print("{:02X} ".format(ord(m[i])), end="")
+    print("\n", flush=True)
         
     print("ÜTLE KRÜPTOGRAMM! 🙊")
 

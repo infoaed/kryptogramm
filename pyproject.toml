@@ -18,7 +18,7 @@ authors = [
 keywords = ["voting", "auditability"]
 
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Framework :: Hatch",
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -29,7 +29,8 @@ dependencies = [
     "asn1crypto",
     "pillow",
     "pyzbar",
-    "pyasice>=1.1.0"
+    "pyasice>=1.1.0",
+    "tinyec"
 ]
 
 dynamic = ["version"]
