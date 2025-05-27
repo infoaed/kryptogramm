@@ -2,3 +2,4 @@ asn1crypto
 pillow
 pyasice>=1.1.0
 pyzbar
+tinyec
