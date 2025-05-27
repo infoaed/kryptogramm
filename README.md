@@ -22,7 +22,7 @@ Estonian Internet voting uses individual vote verification up to 15 minutes from
 * Transparency of human readable/editable Python 300-liner
 * Get to understand better how Internet voting works
 
-Election servers also limit verification by three attempts per ballot. By using the tool you get full control of the democratic process, you can audit every part of it and make it fit your personal preferences or requirements of digital democracy. Currently that kind of hands on auditing is possible only for very limited parts of the election process.
+Election servers also limit verification by three attempts per ballot. By using the tool you can control and audit your voting process and make it fit your personal preferences or requirements of digital democracy. Currently that kind of hands on auditing is possible only for very limited parts of the processes.
 
 See the details about [vote verification](https://www.valimised.ee/en/internet-voting/guidelines/checking-i-vote) on Estonian electoral commission [web page](https://www.valimised.ee/en/internet-voting/documents-about-internet-voting) (documentation mostly in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 

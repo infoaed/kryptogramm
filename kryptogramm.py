@@ -76,7 +76,7 @@ def main(args=None):
         args = sys.argv[1:]
 
     if len(args) == 0:
-        print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #KOV_2025\n")
+        print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #KOV2025\n")
         print("Kasuta:")
         print("\tkryptogramm <pildifail,*/voteid.json> [jõuvõte?]")
         exit(1)
@@ -249,15 +249,17 @@ def main(args=None):
     key_y = sum(v<<i for i, v in enumerate(key[len(key)-384:][::-1]))
     eph_key = int.from_bytes(ephkey_bin, 'big')
 
-    b = IVXVBallot.load(ballot)["content"]["c2"].native
+    b = IVXVBallot.load(ballot)["content"].native
 
     print(isoparse(jsres["BallotMoment"]).astimezone(), d["data"]["parameters"]["1"])
     print(f"\n{asc_ballot}\n")
-      
+
     pub = Point(c, key_x, key_y)
-    c2_x = int.from_bytes(b[1:49])
-    c2_y = int.from_bytes(b[49:])
-    c2 = Point(c, c2_x, c2_y)
+    c1 = Point(c, int.from_bytes(b["c1"][1:49]), int.from_bytes(b["c1"][49:]))
+    c2 = Point(c, int.from_bytes(b["c2"][1:49]), int.from_bytes(b["c2"][49:]))
+
+    if c.g * eph_key != c1:
+        fail("võltsitud krüptogramm")
    
     mp = c2 - eph_key * pub
 
