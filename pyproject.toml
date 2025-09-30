@@ -20,13 +20,14 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Topic :: Security :: Cryptography",
 ]
-
+ 
 dependencies = [
     "asn1crypto",
     "pillow",
     "pyzbar",
     "pyasice>=1.1.0",
-    "tinyec"
+    "tinyec",
+    "oscrypto@git+https://github.com/wbond/oscrypto.git@1547f535001ba568b239b8797465536759c742a3"
 ]
 
 dynamic = ["version"]
@@ -38,6 +39,9 @@ Source = "https://github.com/infoaed/kryptogramm"
 
 [tool.hatch.version]
 path = "__init__.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [project.scripts]
 kryptogramm = "kryptogramm:main"
