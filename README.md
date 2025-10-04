@@ -26,7 +26,7 @@ Election servers also limit verification by three attempts per ballot. By using 
 
 See the details about [vote verification](https://www.valimised.ee/en/internet-voting/guidelines/checking-i-vote) on Estonian electoral commission [web page](https://www.valimised.ee/en/internet-voting/documents-about-internet-voting) (documentation mostly in Estonian) or check out source code of the [official verification tool](https://github.com/vvk-ehk/ivotingverification).
 
-You can use [sample data from two elections](data) to give the tool a test run.
+You can use [sample data from three elections](data) to give the tool a test run.
 
 ## Installation instructions
 
@@ -54,6 +54,9 @@ And if you'd like to run this as a command line tool:
 hatch build
 pip install dist/kryptogramm-0.2.1.tar.gz
 ```
+
+Depending on your style you might need to create virtual environment or `--break-system-packages`.
+
 ## But why?
 
 In combination with the voting application prototype the tool was used to conduct [close inspection of voting protocol](https://gafgaf.infoaed.ee/en/posts/perils-of-electronic-voting/#independent-vote-verification-tool) during parliamentary elections and appeared [useful for detecting and reporting anomalies](https://infoaed.ee/ballot2023) as well as [demonstrating vote secrecy breach](https://infoaed.ee/proof2023).

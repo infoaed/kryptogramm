@@ -77,7 +77,7 @@ def main(args=None):
     if len(args) == 0:
         print("ISIKLIKU HÄÄLE KONTROLLRAKENDUS @e-hääletus #KOV2025\n")
         print("Kasuta:")
-        print("\tkryptogramm <pildifail,*/voteid.json> [jõuvõte?]")
+        print("\tkryptogramm (<QR-CODE.jpg> | <VOTE.json>) [--force-download]\n")
         exit(1)
 
     archive_mode = args[0].strip().lower().endswith(".json")
