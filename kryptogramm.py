@@ -254,8 +254,8 @@ def main(args=None):
     print(f"\n{asc_ballot}\n")
 
     pub = Point(c, key_x, key_y)
-    c1 = Point(c, int.from_bytes(b["c1"][1:49]), int.from_bytes(b["c1"][49:]))
-    c2 = Point(c, int.from_bytes(b["c2"][1:49]), int.from_bytes(b["c2"][49:]))
+    c1 = Point(c, int.from_bytes(b["c1"][1:49], 'big'), int.from_bytes(b["c1"][49:], 'big'))
+    c2 = Point(c, int.from_bytes(b["c2"][1:49], 'big'), int.from_bytes(b["c2"][49:], 'big'))
 
     if c.g * eph_key != c1:
         fail("võltsitud krüptogramm")
