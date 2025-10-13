@@ -36,13 +36,7 @@ cd kryptogramm
 pip install -r requirements.txt
 ```
 
-You might also need:
-
-```
-sudo apt-get install libzbar0
-```
-
-But you might also go directly:
+You also need libzbar with its Python bindings:
 
 ```
 sudo apt-get install python3-zbar
