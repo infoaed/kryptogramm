@@ -27,6 +27,7 @@ dependencies = [
     "pyzbar",
     "pyasice>=1.1.0",
     "tinyec",
+    "python-dateutil",
     "oscrypto@git+https://github.com/wbond/oscrypto.git@1547f535001ba568b239b8797465536759c742a3"
 ]
 
