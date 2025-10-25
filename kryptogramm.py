@@ -281,13 +281,24 @@ def main(args=None):
         fail("sedeli algus vale")
 
     m = m[1:].decode("latin_1")
-        
-    for i in range(0, len(m)):
-        print(f"\033[1m{m[i]}\033[0m", end="  ")
-    print()
-    for i in range(0, len(m)):
-        print("{:02X} ".format(ord(m[i])), end="")
-    print("\n", flush=True)
+
+    while len(m) > 0:
+
+        cut = m.find(" ", 14)
+        c = m[0:cut+1] if cut >= 0 else m
+        if cut > 0:
+            c = m[0:cut+1]
+            m = m[cut+1:]
+        else:
+            c = m
+            m = ""
+
+        for i in range(0, len(c)):
+            print(f"\033[1m{c[i]}\033[0m", end="  ")
+        print()
+        for i in range(0, len(c)):
+            print("{:02X} ".format(ord(c[i])), end="")
+        print("\n", flush=True)
         
     print("ÜTLE KRÜPTOGRAMM! 🙊")
 
